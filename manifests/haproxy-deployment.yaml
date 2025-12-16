@@ -13,14 +13,10 @@ spec:
       labels:
         run: haproxy-ingress
     spec:
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: haproxy-service-account-devops
       containers:
       - name: ingress-container-devops
         image: haproxytech/kubernetes-ingress:latest
-        securityContext:
-          privileged: true
         args:
         - --default-backend-service=haproxy-controller-devops/service-backend-devops
         resources:
@@ -31,7 +27,6 @@ spec:
           httpGet:
             path: /healthz
             port: 1024
-          initialDelaySeconds: 10
         ports:
         - name: http
           containerPort: 80
